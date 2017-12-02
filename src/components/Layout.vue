@@ -4,21 +4,23 @@
         <header-sec />
     </div>
     <div id="contact-section" class="content">
+        <contact />
     </div>
   </section>
 </template>
 
 <script>
 import HeaderSec from '../components/Header-Section.vue'
+import Contact from '../components/Contact.vue'
 
 export default {
     data () {
         return {
-            message: 'Hello World'
         }
     },
     components: {
-        HeaderSec
+        HeaderSec,
+        Contact
     }
 }
 </script>

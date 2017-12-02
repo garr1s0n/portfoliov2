@@ -1,7 +1,6 @@
 <template>
     <div class="container">
       <div>
-        <iframe src="" class="formSubmitSrc" name="formSubmitSrc"></iframe>
         <div class="row">
             <div class="headerText column twelve">
                 <h1 class="title">send me a message!</h1>
@@ -11,31 +10,31 @@
                 </transition>
             </div>
         </div>
-        <form id="contact-form" method="post" action="https://sheltered-coast-37245.herokuapp.com/send" target="formSubmitSrc" @submit="contactSubmit()" >
+        <form id="contact-form" method="post" action="https://sheltered-coast-37245.herokuapp.com/send" @submit.prevent="contactSubmit()" >
             <div class="row">
                 <div class="six columns">
                     <label for="exampleEmailInput">Full Name:</label>
-                    <input class="u-full-width" type="text" placeholder="Name..." id="name" name="name" >
+                    <input class="u-full-width" type="text" placeholder="Name..." id="name" name="name" v-model="name" >
                 </div>
                 <div class="six columns">
                     <label for="exampleEmailInput">Company Name:</label>
-                    <input class="u-full-width" type="text" placeholder="Company..." id="company" name="company" >
+                    <input class="u-full-width" type="text" placeholder="Company..." id="company" name="company" v-model="company" >
                 </div>
             </div>
             <div class="row">
                 <div class="six columns">
                     <label for="exampleEmailInput">Email Address:</label>
-                    <input class="u-full-width" type="email" placeholder="Email Address..." id="email" name="email" >
+                    <input class="u-full-width" type="email" placeholder="Email Address..." id="email" name="email" v-model="email" >
                 </div>
                 <div class="six columns">
                     <label for="exampleEmailInput">Phone Number:</label>
-                    <input class="u-full-width" type="tel" placeholder="Phone Number..." id="phone" name="phone" >
+                    <input class="u-full-width" type="tel" placeholder="Phone Number..." id="phone" name="phone" v-model="phone" >
                 </div>
             </div>
             <div class="row">
-                <div class="twelve columns">
+            <div class="twelve columns">
                     <label for="exampleMessage">Message</label>
-                    <textarea class="u-full-width" placeholder="Hello!" id="message" name="message" ></textarea>
+                    <textarea class="u-full-width" placeholder="Hello!" id="message" name="message" v-model="message" ></textarea>
                 </div>
             </div>
             <div class="row">
@@ -55,6 +54,11 @@ import VeeValidate from 'vee-validate'
 export default {
   data: function () {
     return {
+      name: "",
+      company: "",
+      email: "",
+      phone: "",
+      message: "",
       contactSent: false
     }
   },
@@ -63,10 +67,21 @@ export default {
   },
   methods: {
     contactSubmit: function () {
+    //   this.contactFormData.append("name",this.name);
+    //   this.contactFormData.append("company",this.company);
+    //   this.contactFormData.append("email",this.email);
+    //   this.contactFormData.append("phone",this.phone);
+    //   this.contactFormData.append("message",this.message);
+
+    //   var request = new XMLHttpRequest();
+
+    //   console.log(this.contactFormData); 
+    
+      document.getElementById('contact-form').submit()
+
       document.getElementById('contact-form').reset()
       this.contactSent = !this.contactSent
       setTimeout(function () {
-        console.log('yep')
         this.contactSent = !this.contactSent
       }, 600)
     }
@@ -75,7 +90,7 @@ export default {
 </script>
 
 <<style lang="less" scoped>
-@import url('../static/styles/base-styles.less');
+@import url('../assets/styles/base-styles.less');
 
 .formSubmitSrc { 
     width: 1px;
