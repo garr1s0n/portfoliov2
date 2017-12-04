@@ -7,7 +7,7 @@
                 <p>Interested in doing business? Want to learn more? Just want to say hi? Fill out the form below and drop me a line!</p>
             </div>
         </div>
-        <form id="siteContactForm">
+        <form id="siteContactForm" @submit.prevent>
             <vue-form-generator :schema="schema" :model="model" :options="options">
             </vue-form-generator>
         </form>
@@ -108,7 +108,7 @@ export default {
                 ]
             },
             options: {
-                validateAfterChanged: true
+                validateAfterChanged: false
             }
         }
     },
@@ -137,6 +137,8 @@ export default {
                 console.log(error);
             });
             
+            document.getElementById('siteContactForm').reset()
+
             console.log('Form Submitted')
         }
     }
