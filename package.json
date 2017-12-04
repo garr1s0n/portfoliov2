@@ -8,8 +8,7 @@
     "dev": "node build/dev-server.js",
     "devstart": "npm run dev",
     "start": "node server.js",
-    "build": "node build/build.js",
-    "heroku-postbuild": "npm run build"
+    "build": "node build/build.js"
   },
   "dependencies": {
     "cleave.js": "^1.0.7",
