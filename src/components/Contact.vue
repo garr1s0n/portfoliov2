@@ -21,6 +21,7 @@ import VueFormGenerator from "vue-form-generator"
     import "vue-form-generator/dist/vfg-core.css"
 import Cleave from "cleave.js"
     require('cleave.js/dist/addons/cleave-phone.US')
+import Axios from "axios"
 
 Vue.use(VueFormGenerator)
 
@@ -121,19 +122,20 @@ export default {
             const contactEmail = this.model.emailAddress
             const contactPhone = this.model.phoneNumber
             const contactMessage = this.model.message
-
-            const contactFormData = new FormData()
-
-            contactFormData.append("name",contactName)
-            contactFormData.append("company",contactCompany)
-            contactFormData.append("email",contactEmail)
-            contactFormData.append("phone",contactPhone)
-            contactFormData.append("message",contactMessage)
-
-            var request = new XMLHttpRequest()
-            request.open("POST", "https://sheltered-coast-37245.herokuapp.com/send")
-            request.send(contactFormData)
-
+            
+            Axios.post('https://sheltered-coast-37245.herokuapp.com/send', {
+                name: contactName,
+                company: contactCompany,
+                name: contactEmail,
+                email: contactPhone,
+                message: contactMessage
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
             
             console.log('Form Submitted')
         }

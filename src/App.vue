@@ -11,6 +11,8 @@ export default {
 </script>
 
 <style lang="less">
+@import url('assets/styles/normalize.css');
+@import url('assets/styles/skeleton.css');
 @import url('assets/styles/base-styles.less');
 
 html {
