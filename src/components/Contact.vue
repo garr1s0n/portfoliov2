@@ -5,43 +5,11 @@
             <div class="headerText column twelve">
                 <h1 class="title">send me a message!</h1>
                 <p>Interested in doing business? Want to learn more? Just want to say hi? Fill out the form below and drop me a line!</p>
-                <transition name="fade">
-                    <p v-if="contactSent" class="postSubmit">Thanks for the message! I'll get back to you soon.</p>
-                </transition>
             </div>
         </div>
-        <form id="contact-form" method="post" action="https://sheltered-coast-37245.herokuapp.com/send" @submit.prevent="contactSubmit()" >
-            <div class="row">
-                <div class="six columns">
-                    <label for="exampleEmailInput">Full Name:</label>
-                    <input class="u-full-width" type="text" placeholder="Name..." id="name" name="name" v-model="name" >
-                </div>
-                <div class="six columns">
-                    <label for="exampleEmailInput">Company Name:</label>
-                    <input class="u-full-width" type="text" placeholder="Company..." id="company" name="company" v-model="company" >
-                </div>
-            </div>
-            <div class="row">
-                <div class="six columns">
-                    <label for="exampleEmailInput">Email Address:</label>
-                    <input class="u-full-width" type="email" placeholder="Email Address..." id="email" name="email" v-model="email" >
-                </div>
-                <div class="six columns">
-                    <label for="exampleEmailInput">Phone Number:</label>
-                    <input class="u-full-width" type="tel" placeholder="Phone Number..." id="phone" name="phone" v-model="phone" >
-                </div>
-            </div>
-            <div class="row">
-            <div class="twelve columns">
-                    <label for="exampleMessage">Message</label>
-                    <textarea class="u-full-width" placeholder="Hello!" id="message" name="message" v-model="message" ></textarea>
-                </div>
-            </div>
-            <div class="row">
-                <div class="twelve columns">
-                    <button class="button--white" type="submit" value="Submit">Submit</button>
-                </div>
-            </div>
+        <form id="siteContactForm">
+            <vue-form-generator :schema="schema" :model="model" :options="options">
+            </vue-form-generator>
         </form>
       </div>
     </div>
@@ -49,43 +17,127 @@
 
 <script>
 import Vue from 'vue'
-import VeeValidate from 'vee-validate'
+import VueFormGenerator from "vue-form-generator"
+    import "vue-form-generator/dist/vfg-core.css"
+import Cleave from "cleave.js"
+    require('cleave.js/dist/addons/cleave-phone.US')
+
+Vue.use(VueFormGenerator)
 
 export default {
-  data: function () {
-    return {
-      name: "",
-      company: "",
-      email: "",
-      phone: "",
-      message: "",
-      contactSent: false
+    components: {
+        "vue-form-generator": VueFormGenerator.component
+    },
+    data: function () {
+        return {
+            model: {
+                fullName: "",
+                companyName: "",
+                emailAddress: "",
+                phoneNumber: "",
+                message: ""
+            },
+            schema: {
+                fields: [
+                    {
+                        id: "fullName",
+                        type: "input",
+                        inputType: "text",
+                        label: "Full Name: ",
+                        model: "fullName",
+                        maxlength: 50,
+                        required: true,
+                        validator: VueFormGenerator.validators.string
+                    },
+                    {
+                        id: "companyName",
+                        type: "input",
+                        inputType: "text",
+                        label: "Company Name: ",
+                        model: "companyName",
+                        maxlength: 65,
+                        required: false
+                    },
+                    {
+                        id: "emailAddress",
+                        type: "input",
+                        inputType: "email",
+                        label: "Email Address: ",
+                        model: "emailAddress",
+                        maxlength: 50,
+                        required: true,
+                        placeholder: "Your Email Address",
+                        validator: VueFormGenerator.validators.email
+                    },
+                    {
+                        id: "phoneNumber",
+                        type: "cleave",
+                        label: "Phone Number: ",
+                        model: "phoneNumber",
+                        required: true,
+                        cleaveOptions: {
+                            blocks: [0, 3, 0, 3, 4],
+                            delimiter: ' ',
+                            delimiters: ['(', ')', ' ', '-', '-'],    
+                            numericOnly: true,
+                            uppercase: false,
+                            lowercase: false
+                        },
+                        validator: VueFormGenerator.validators.string
+                    },
+                    {
+                        id: "message",
+                        type: "textArea",
+                        label: "Message: ",
+                        model: "message",
+                        max: 1000,
+                        placeholder: "What can I do for you?",
+                        rows: 3,
+                        hint: "Max 1,000 characters",
+                        required: true,
+                        validator: VueFormGenerator.validators.string
+                    },
+                    {
+                        id: "submitBtn",
+                        type: "submit",
+                        buttonText: "Submit",
+                        validateBeforeSubmit: true,
+                        onSubmit: this.formSubmit
+                    }
+                ]
+            },
+            options: {
+                validateAfterChanged: true
+            }
+        }
+    },
+    methods: {
+        formSubmit: function () {
+            console.log('Form Processing')
+
+            //name company email phone message
+            const contactName = this.model.fullName
+            const contactCompany = this.model.companyName
+            const contactEmail = this.model.emailAddress
+            const contactPhone = this.model.phoneNumber
+            const contactMessage = this.model.message
+
+            const contactFormData = new FormData()
+
+            contactFormData.append("name",contactName)
+            contactFormData.append("company",contactCompany)
+            contactFormData.append("email",contactEmail)
+            contactFormData.append("phone",contactPhone)
+            contactFormData.append("message",contactMessage)
+
+            var request = new XMLHttpRequest()
+            request.open("POST", "https://sheltered-coast-37245.herokuapp.com/send")
+            request.send(contactFormData)
+
+            
+            console.log('Form Submitted')
+        }
     }
-  },
-  mounted: function () {
-    Vue.use(VeeValidate)
-  },
-  methods: {
-    contactSubmit: function () {
-    //   this.contactFormData.append("name",this.name);
-    //   this.contactFormData.append("company",this.company);
-    //   this.contactFormData.append("email",this.email);
-    //   this.contactFormData.append("phone",this.phone);
-    //   this.contactFormData.append("message",this.message);
-
-    //   var request = new XMLHttpRequest();
-
-    //   console.log(this.contactFormData); 
-    
-      document.getElementById('contact-form').submit()
-
-      document.getElementById('contact-form').reset()
-      this.contactSent = !this.contactSent
-      setTimeout(function () {
-        this.contactSent = !this.contactSent
-      }, 600)
-    }
-  }
 }
 </script>
 
