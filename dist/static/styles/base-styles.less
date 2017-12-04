@@ -1,0 +1,49 @@
+/* Base Styles to be Imported */
+
+/* Fonts */
+@playfair: 'Playfair Display', serif;
+@raleway: 'Raleway', sans-serif;
+
+/* Colors */
+@white: #fff;
+@blue: rgb(125,185,232); 
+@pink: rgb(255,66,207); 
+
+/* Layout */
+.hide { display:none; }
+
+/* Buttons */
+[class^="button"] {
+    display: inline-block;
+    font-size: 1em;
+    border-radius: .25em;
+    text-decoration: none;
+    height: auto;
+    padding: .5em 2em;
+    margin: 0 0 1em 1em;
+    transition: all .35s ease-in;
+    
+}
+[class^="button"]:first-child {
+    margin-left: 0;
+}
+[class^="button"]:hover {
+    background: #fff;
+}
+@media screen and (max-width: 30em) {
+    [class^="button"] {
+        font-size: .825em;
+        padding: .25em 1em;
+    }
+}
+  
+.button--white {
+    border: 1px solid #fff;
+    color: #fff;
+    background: none;
+    
+}
+.button--white:hover {
+    color: @blue;
+    background: #fff;
+}
