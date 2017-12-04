@@ -126,8 +126,8 @@ export default {
             Axios.post('https://sheltered-coast-37245.herokuapp.com/send', {
                 name: contactName,
                 company: contactCompany,
-                name: contactEmail,
-                email: contactPhone,
+                phone: contactPhone,
+                email: contactEmail,
                 message: contactMessage
             })
             .then(function (response) {
