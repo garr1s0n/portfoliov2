@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-      <div>
+      <div class="contactSection">
         <div class="row">
             <div class="headerText column twelve">
                 <h1 class="title">send me a message!</h1>
@@ -108,7 +108,7 @@ export default {
                 ]
             },
             options: {
-                validateAfterChanged: false
+                validateAfterChanged: true
             }
         }
     },
@@ -145,7 +145,7 @@ export default {
 }
 </script>
 
-<<style lang="less" scoped>
+<<style lang="less">
 @import url('../assets/styles/base-styles.less');
 
 .formSubmitSrc { 
@@ -160,7 +160,7 @@ export default {
     visibility: hidden;
 }
 
-.title {
+.contactSection .title {
   font-family: @playfair;
   display: block;
   font-weight: 900;
@@ -169,12 +169,103 @@ export default {
   color: #fff;
 }
 
-.title + p {
+.contactSection .title + p {
     font-size: .875em;
     margin: 0 0 1em;
 }
 
-label {
+fieldset { 
+    margin: 0 -.5rem; 
+}
+
+.vue-form-generator {
+    .form-group {
+        width: ~"calc(50% - 1rem)";
+        margin: 0 .5rem 1rem;
+    }
+    
+    .form-group.error .errors {
+        color: red;
+        font-size: .8rem;
+        line-height: 1.4;
+        position: relative;
+        top: -.25em;
+    }
+    .form-group.error.field-textArea .errors {
+        top: -1em;
+    }
+
+    .form-group.field-textArea, .form-group.field-submit {
+        width: ~"calc(100% - 1rem)";
+    }
+    .form-group.field-submit {
+        margin-bottom: 0; 
+    }
+
+    @media screen and (max-width: 48em) {
+        .form-group, .form-group.field-textArea {
+            width: 100%;
+            margin: 0 0 1rem;
+        }
+    }
+
+    input.form-control, textarea.form-control {
+        border: 1px solid #fff;
+        background: none;
+        color: #fff;
+        font-size: .725em;
+        margin: 0 0 .25rem;
+        resize: none;
+        transition: all .35s ease-in-out;
+    }
+
+    textarea.form-control { 
+        height: 10em;
+    }
+
+    .hint {
+        font-size: .725rem;
+        line-height: 1;
+        text-align: right;
+        color: #fff;
+    }
+
+    .field-wrap { 
+        input[type=submit] {
+            display: inline-block;
+            font-size: 1em;
+            border-radius: .25em;
+            text-decoration: none;
+            height: auto;
+            padding: .5em 2em;
+            margin: 0;
+            transition: all .35s ease-in;
+            border: 1px solid #fff !important;
+            color: #fff !important;
+            background: none !important;
+            
+        }
+        input[type=submit]:hover {
+            color: @blue !important;
+            background: #fff !important;
+        }
+        @media screen and (max-width: 30em) {
+            input[type=submit] {
+                font-size: .825em;
+                padding: .25em 1em;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 48em) {
+    fieldset {
+        margin: 0;
+    }
+}
+
+.vue-form-generator .form-group label {
     font-size: .5em; 
     font-weight: 700;
     margin-bottom: .15em;
@@ -182,13 +273,7 @@ label {
     letter-spacing: 0.02em;
 }
 
-input, textarea {
-    border: 1px solid #fff;
-    background: none;
-    color: #fff;
-    font-size: .725em;
-    transition: all .35s ease-in-out;
-}
+.vue-form-generator 
 ::-webkit-input-placeholder { 
   color: rgba(255,255,255,0.75);
 }
@@ -201,7 +286,7 @@ input, textarea {
 :-moz-placeholder { 
   color: rgba(255,255,255,0.75);
 }
-input:focus, textarea:focus {
+.vue-form-generator input.form-control:focus, .vue-form-generator textarea.form-control:focus {
     border: 1px solid #000;
 }
 
